@@ -4,12 +4,15 @@ const btnAdd = document.getElementsByClassName("btn-info");
 const btnCart = document.querySelector(".btn-cart");
 const cartList = document.querySelector(".shopping-cart-list");
 
+let totalPrice = 0;
+// let integerPirice = 0;
 // tıkladıgımızda aldıgımız bilgiler
 class Shopping {
     constructor(title, price, image) {
         this.image = image;
         this.title = title;
         this.price = price;
+
     }
 }
 
@@ -41,6 +44,7 @@ class UI {
                                     </button>
                                 </div>
                             </div> 
+                            
         `
         cartList.appendChild(listİtem);
     }
@@ -56,7 +60,8 @@ class UI {
                 self.cartCount();
             })
         }
-
+        totalPrice -= parseInt(price);
+        console.log("totalPrice", totalPrice)
     }
 
     cartToggle() {
@@ -69,11 +74,19 @@ class UI {
     cartCount() {
         let cartListİtem = cartList.getElementsByClassName("list-item");
         let itemCount = document.getElementById("item-count");
-        // console.log("cart list item uzunluğu", )
+        console.log("cart list item uzunluğu", cartListİtem.length)
         itemCount.innerHTML = cartListİtem.length;
+
+        if (cartListİtem.length == 0) {
+            cartList.classList.add("d-none");
+
+        }
+
 
 
     }
+
+
 }
 
 
@@ -89,13 +102,25 @@ for (let i = 0; i < card.length; i++) {
         let image = card[i].getElementsByClassName("card-img-top")[0].src;
         // btnAdd[i].classList.add("disabled");
         // btnAdd[i].textContent = "In Card";
+
         let shopping = new Shopping(title, price, image);
+
+
+        console.log("price", price)
+        // console.log("priceType", typeof(price))
+        // totalPrice = priceInt(totalPrice, 10);
+        // console.log("totalPricetype", typeof(totalPrice))
+        totalPrice += parseInt(price);
+        document.querySelector("#total-price").innerHTML = totalPrice
+        console.log("totalPrice", totalPrice)
+        // console.log("totalPricetype", typeof(totalPrice))
 
         let ui = new UI();
 
         ui.addToCart(shopping);
         ui.removeCart();
         ui.cartCount();
+
 
 
         e.preventDefault();
